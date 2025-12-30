@@ -1,0 +1,6 @@
+channel:
+  - createChannel:
+  - joinChannel:
+chat:
+  - sendMessage:
+  - observeChannel:

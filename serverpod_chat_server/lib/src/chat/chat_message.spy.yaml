@@ -1,0 +1,11 @@
+class: ChatMessage
+table: chat_message
+fields:
+  channelId:
+    type: int
+  senderId:
+    type: int
+  message:
+    type: String
+  timeSent:
+    type: DateTime
