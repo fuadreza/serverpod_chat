@@ -2,6 +2,11 @@
 
 A Simple Chat Application built with [Serverpod](https://serverpod.dev/) and Flutter. This project consists of a server, a client library, and a Flutter app.
 
+## How it works
+
+https://github.com/user-attachments/assets/01516b1a-db3e-478d-ad11-fc54e961db2a
+
+
 ## Project Structure
 
 - `serverpod_chat_server`: The Serverpod server that handles the backend logic, database connections, and API endpoints.
