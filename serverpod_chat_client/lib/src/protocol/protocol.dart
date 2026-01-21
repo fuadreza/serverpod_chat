@@ -12,10 +12,14 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'channel/channel.dart' as _i2;
 import 'chat/chat_message.dart' as _i3;
+import 'exception/exception.dart' as _i4;
+import 'user/user.dart' as _i5;
 import 'package:serverpod_chat_client/src/protocol/chat/chat_message.dart'
-    as _i4;
+    as _i6;
 export 'channel/channel.dart';
 export 'chat/chat_message.dart';
+export 'exception/exception.dart';
+export 'user/user.dart';
 export 'client.dart';
 
 class Protocol extends _i1.SerializationManager {
@@ -37,14 +41,26 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i3.ChatMessage) {
       return _i3.ChatMessage.fromJson(data) as T;
     }
+    if (t == _i4.ServerException) {
+      return _i4.ServerException.fromJson(data) as T;
+    }
+    if (t == _i5.User) {
+      return _i5.User.fromJson(data) as T;
+    }
     if (t == _i1.getType<_i2.Channel?>()) {
       return (data != null ? _i2.Channel.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i3.ChatMessage?>()) {
       return (data != null ? _i3.ChatMessage.fromJson(data) : null) as T;
     }
-    if (t == List<_i4.ChatMessage>) {
-      return (data as List).map((e) => deserialize<_i4.ChatMessage>(e)).toList()
+    if (t == _i1.getType<_i4.ServerException?>()) {
+      return (data != null ? _i4.ServerException.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i5.User?>()) {
+      return (data != null ? _i5.User.fromJson(data) : null) as T;
+    }
+    if (t == List<_i6.ChatMessage>) {
+      return (data as List).map((e) => deserialize<_i6.ChatMessage>(e)).toList()
           as T;
     }
     return super.deserialize<T>(data, t);
@@ -60,6 +76,12 @@ class Protocol extends _i1.SerializationManager {
     if (data is _i3.ChatMessage) {
       return 'ChatMessage';
     }
+    if (data is _i4.ServerException) {
+      return 'ServerException';
+    }
+    if (data is _i5.User) {
+      return 'User';
+    }
     return null;
   }
 
@@ -74,6 +96,12 @@ class Protocol extends _i1.SerializationManager {
     }
     if (dataClassName == 'ChatMessage') {
       return deserialize<_i3.ChatMessage>(data['data']);
+    }
+    if (dataClassName == 'ServerException') {
+      return deserialize<_i4.ServerException>(data['data']);
+    }
+    if (dataClassName == 'User') {
+      return deserialize<_i5.User>(data['data']);
     }
     return super.deserializeByClassName(data);
   }

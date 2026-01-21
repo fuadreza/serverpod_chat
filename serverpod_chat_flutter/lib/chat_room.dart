@@ -1,11 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:serverpod_chat_client/serverpod_chat_client.dart';
+import 'package:serverpod_chat_flutter/login_screen.dart';
 import 'package:serverpod_chat_flutter/main.dart';
 import 'chat_screen.dart';
 
 class ChatRoomPage extends StatefulWidget {
-  const ChatRoomPage({super.key});
+  const ChatRoomPage({
+    super.key,
+    required this.user,
+  });
+
+  final User user;
 
   @override
   State<ChatRoomPage> createState() => _ChatRoomPageState();
@@ -83,6 +89,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             MaterialPageRoute(
               builder: (context) => ChatScreen(
                 channel: _channel!,
+                user: widget.user,
               ),
             ),
           );
@@ -137,8 +144,26 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 _state = ChatRoomState.joining;
               });
             },
-            icon: const Icon(Icons.login),
+            icon: const Icon(Icons.group),
             label: const Text('Join Channel'),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => const LoginScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.exit_to_app),
+            label: const Text('Exit'),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
@@ -245,6 +270,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
               MaterialPageRoute(
                 builder: (context) => ChatScreen(
                   channel: _channel!,
+                  user: widget.user,
                 ),
               ),
             );
@@ -294,6 +320,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
               MaterialPageRoute(
                 builder: (context) => ChatScreen(
                   channel: _channel!,
+                  user: widget.user,
                 ),
               ),
             );

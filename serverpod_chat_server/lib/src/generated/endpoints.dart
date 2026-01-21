@@ -12,8 +12,10 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../channel/channel_endpoint.dart' as _i2;
 import '../chat/chat_endpoint.dart' as _i3;
+import '../user/user_endpoint.dart' as _i4;
 import 'package:serverpod_chat_server/src/generated/chat/chat_message.dart'
-    as _i4;
+    as _i5;
+import 'package:serverpod_chat_server/src/generated/user/user.dart' as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -29,6 +31,12 @@ class Endpoints extends _i1.EndpointDispatch {
         ..initialize(
           server,
           'chat',
+          null,
+        ),
+      'user': _i4.UserEndpoint()
+        ..initialize(
+          server,
+          'user',
           null,
         ),
     };
@@ -83,7 +91,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'message': _i1.ParameterDescription(
               name: 'message',
-              type: _i1.getType<_i4.ChatMessage>(),
+              type: _i1.getType<_i5.ChatMessage>(),
               nullable: false,
             )
           },
@@ -133,6 +141,48 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['chat'] as _i3.ChatEndpoint).observeChannel(
             session,
             params['channelId'],
+          ),
+        ),
+      },
+    );
+    connectors['user'] = _i1.EndpointConnector(
+      name: 'user',
+      endpoint: endpoints['user']!,
+      methodConnectors: {
+        'signUp': _i1.MethodConnector(
+          name: 'signUp',
+          params: {
+            'user': _i1.ParameterDescription(
+              name: 'user',
+              type: _i1.getType<_i6.User>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['user'] as _i4.UserEndpoint).signUp(
+            session,
+            params['user'],
+          ),
+        ),
+        'signIn': _i1.MethodConnector(
+          name: 'signIn',
+          params: {
+            'user': _i1.ParameterDescription(
+              name: 'user',
+              type: _i1.getType<_i6.User>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['user'] as _i4.UserEndpoint).signIn(
+            session,
+            params['user'],
           ),
         ),
       },

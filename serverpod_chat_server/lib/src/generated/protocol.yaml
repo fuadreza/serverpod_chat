@@ -5,3 +5,6 @@ chat:
   - sendMessage:
   - getChatHistory:
   - observeChannel:
+user:
+  - signUp:
+  - signIn:

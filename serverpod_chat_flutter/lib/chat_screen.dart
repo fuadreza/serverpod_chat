@@ -1,14 +1,18 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:serverpod_chat_client/serverpod_chat_client.dart';
 import 'package:serverpod_chat_flutter/main.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.channel});
+  const ChatScreen({
+    super.key,
+    required this.channel,
+    required this.user,
+  });
 
   final Channel channel;
+  final User user;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -24,7 +28,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    senderId = Random().nextInt(100);
+    senderId = widget.user.id!;
     _initializeChat();
   }
 

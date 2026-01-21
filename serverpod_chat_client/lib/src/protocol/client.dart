@@ -14,7 +14,8 @@ import 'dart:async' as _i2;
 import 'package:serverpod_chat_client/src/protocol/channel/channel.dart' as _i3;
 import 'package:serverpod_chat_client/src/protocol/chat/chat_message.dart'
     as _i4;
-import 'protocol.dart' as _i5;
+import 'package:serverpod_chat_client/src/protocol/user/user.dart' as _i5;
+import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
 class EndpointChannel extends _i1.EndpointRef {
@@ -69,6 +70,27 @@ class EndpointChat extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointUser extends _i1.EndpointRef {
+  EndpointUser(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'user';
+
+  _i2.Future<String> signUp(_i5.User user) => caller.callServerEndpoint<String>(
+        'user',
+        'signUp',
+        {'user': user},
+      );
+
+  _i2.Future<_i5.User> signIn(_i5.User user) =>
+      caller.callServerEndpoint<_i5.User>(
+        'user',
+        'signIn',
+        {'user': user},
+      );
+}
+
 class Client extends _i1.ServerpodClientShared {
   Client(
     String host, {
@@ -85,7 +107,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i6.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -97,16 +119,20 @@ class Client extends _i1.ServerpodClientShared {
         ) {
     channel = EndpointChannel(this);
     chat = EndpointChat(this);
+    user = EndpointUser(this);
   }
 
   late final EndpointChannel channel;
 
   late final EndpointChat chat;
 
+  late final EndpointUser user;
+
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'channel': channel,
         'chat': chat,
+        'user': user,
       };
 
   @override

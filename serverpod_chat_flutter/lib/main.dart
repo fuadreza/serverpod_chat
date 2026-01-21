@@ -1,6 +1,7 @@
 import 'package:serverpod_chat_client/serverpod_chat_client.dart';
 import 'package:flutter/material.dart';
-import 'package:serverpod_chat_flutter/chat_room.dart';
+
+import 'package:serverpod_chat_flutter/login_screen.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 /// Sets up a global client object that can be used to talk to the server from
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const ChatRoomPage(),
+      home: const LoginScreen(),
     );
   }
 }

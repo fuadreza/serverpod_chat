@@ -13,10 +13,14 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'channel/channel.dart' as _i3;
 import 'chat/chat_message.dart' as _i4;
+import 'exception/exception.dart' as _i5;
+import 'user/user.dart' as _i6;
 import 'package:serverpod_chat_server/src/generated/chat/chat_message.dart'
-    as _i5;
+    as _i7;
 export 'channel/channel.dart';
 export 'chat/chat_message.dart';
+export 'exception/exception.dart';
+export 'user/user.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -120,6 +124,56 @@ class Protocol extends _i1.SerializationManagerServer {
       ],
       managed: true,
     ),
+    _i2.TableDefinition(
+      name: 'users',
+      dartName: 'User',
+      schema: 'public',
+      module: 'serverpod_chat',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'users_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'email',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'password',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'users_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
     ..._i2.Protocol.targetTableDefinitions,
   ];
 
@@ -135,14 +189,26 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i4.ChatMessage) {
       return _i4.ChatMessage.fromJson(data) as T;
     }
+    if (t == _i5.ServerException) {
+      return _i5.ServerException.fromJson(data) as T;
+    }
+    if (t == _i6.User) {
+      return _i6.User.fromJson(data) as T;
+    }
     if (t == _i1.getType<_i3.Channel?>()) {
       return (data != null ? _i3.Channel.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<_i4.ChatMessage?>()) {
       return (data != null ? _i4.ChatMessage.fromJson(data) : null) as T;
     }
-    if (t == List<_i5.ChatMessage>) {
-      return (data as List).map((e) => deserialize<_i5.ChatMessage>(e)).toList()
+    if (t == _i1.getType<_i5.ServerException?>()) {
+      return (data != null ? _i5.ServerException.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i6.User?>()) {
+      return (data != null ? _i6.User.fromJson(data) : null) as T;
+    }
+    if (t == List<_i7.ChatMessage>) {
+      return (data as List).map((e) => deserialize<_i7.ChatMessage>(e)).toList()
           as T;
     }
     try {
@@ -160,6 +226,12 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (data is _i4.ChatMessage) {
       return 'ChatMessage';
+    }
+    if (data is _i5.ServerException) {
+      return 'ServerException';
+    }
+    if (data is _i6.User) {
+      return 'User';
     }
     className = _i2.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -179,6 +251,12 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (dataClassName == 'ChatMessage') {
       return deserialize<_i4.ChatMessage>(data['data']);
+    }
+    if (dataClassName == 'ServerException') {
+      return deserialize<_i5.ServerException>(data['data']);
+    }
+    if (dataClassName == 'User') {
+      return deserialize<_i6.User>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -200,6 +278,8 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i3.Channel.t;
       case _i4.ChatMessage:
         return _i4.ChatMessage.t;
+      case _i6.User:
+        return _i6.User.t;
     }
     return null;
   }
