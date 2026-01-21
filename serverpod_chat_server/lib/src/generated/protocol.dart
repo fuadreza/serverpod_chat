@@ -13,6 +13,8 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'channel/channel.dart' as _i3;
 import 'chat/chat_message.dart' as _i4;
+import 'package:serverpod_chat_server/src/generated/chat/chat_message.dart'
+    as _i5;
 export 'channel/channel.dart';
 export 'chat/chat_message.dart';
 
@@ -138,6 +140,10 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (t == _i1.getType<_i4.ChatMessage?>()) {
       return (data != null ? _i4.ChatMessage.fromJson(data) : null) as T;
+    }
+    if (t == List<_i5.ChatMessage>) {
+      return (data as List).map((e) => deserialize<_i5.ChatMessage>(e)).toList()
+          as T;
     }
     try {
       return _i2.Protocol().deserialize<T>(data, t);

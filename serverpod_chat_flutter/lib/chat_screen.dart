@@ -25,30 +25,42 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     senderId = Random().nextInt(100);
-    _startListening();
+    _initializeChat();
+  }
+
+  Future<void> _initializeChat() async {
+    if (widget.channel.id == null) return;
+
+    try {
+      final history = await client.chat.getChatHistory(widget.channel.id!);
+
+      setState(() {
+        _messages.addAll(history.toList());
+      });
+
+      _startListening();
+    } catch (e) {
+      print("Error loading chat: $e");
+    }
   }
 
   Future<void> _startListening() async {
     if (widget.channel.id != null) {
       while (true) {
         try {
-          // Call the streaming method
           final stream = client.chat.observeChannel(widget.channel.id!);
 
-          // Option 1: await for
           await for (final msg in stream) {
             setState(() {
               _messages.add(msg);
             });
           }
         } on MethodStreamException catch (_) {
-          // Connection lost or failed – clear UI or show error
           setState(() {
             _messages.clear();
           });
         }
 
-        // Reconnect after a delay (same pattern as Pixorama)
         await Future.delayed(const Duration(seconds: 1));
       }
     }

@@ -12,6 +12,8 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'channel/channel.dart' as _i2;
 import 'chat/chat_message.dart' as _i3;
+import 'package:serverpod_chat_client/src/protocol/chat/chat_message.dart'
+    as _i4;
 export 'channel/channel.dart';
 export 'chat/chat_message.dart';
 export 'client.dart';
@@ -40,6 +42,10 @@ class Protocol extends _i1.SerializationManager {
     }
     if (t == _i1.getType<_i3.ChatMessage?>()) {
       return (data != null ? _i3.ChatMessage.fromJson(data) : null) as T;
+    }
+    if (t == List<_i4.ChatMessage>) {
+      return (data as List).map((e) => deserialize<_i4.ChatMessage>(e)).toList()
+          as T;
     }
     return super.deserialize<T>(data, t);
   }

@@ -52,6 +52,13 @@ class EndpointChat extends _i1.EndpointRef {
         {'message': message},
       );
 
+  _i2.Future<List<_i4.ChatMessage>> getChatHistory(int channelId) =>
+      caller.callServerEndpoint<List<_i4.ChatMessage>>(
+        'chat',
+        'getChatHistory',
+        {'channelId': channelId},
+      );
+
   _i2.Stream<_i4.ChatMessage> observeChannel(int channelId) =>
       caller.callStreamingServerEndpoint<_i2.Stream<_i4.ChatMessage>,
           _i4.ChatMessage>(

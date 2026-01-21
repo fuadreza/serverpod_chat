@@ -3,4 +3,5 @@ channel:
   - joinChannel:
 chat:
   - sendMessage:
+  - getChatHistory:
   - observeChannel:

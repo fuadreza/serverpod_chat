@@ -96,6 +96,24 @@ class Endpoints extends _i1.EndpointDispatch {
             params['message'],
           ),
         ),
+        'getChatHistory': _i1.MethodConnector(
+          name: 'getChatHistory',
+          params: {
+            'channelId': _i1.ParameterDescription(
+              name: 'channelId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['chat'] as _i3.ChatEndpoint).getChatHistory(
+            session,
+            params['channelId'],
+          ),
+        ),
         'observeChannel': _i1.MethodStreamConnector(
           name: 'observeChannel',
           params: {

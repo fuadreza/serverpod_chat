@@ -31,7 +31,7 @@ Navigate to the server directory and start the necessary Docker containers (Post
 
 ```bash
 cd serverpod_chat_server
-docker-compose up --build --detach
+docker compose up --build --detach
 ```
 
 ### 2. Run the Server
@@ -54,7 +54,7 @@ flutter run
 
 ## Modifying the Models (Optional)
 
-If you modify the models inside the `serverpod_chat_server/lib/src/`, you need to regenerate the client code.
+If you modify the `models` or `endpoints` inside the `serverpod_chat_server/lib/src/`, you need to regenerate the client code.
 
 ```bash
 cd serverpod_chat_server
