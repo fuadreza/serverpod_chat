@@ -178,13 +178,18 @@ class ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       itemCount: messages.length,
+      separatorBuilder: (_, __) {
+        return const SizedBox(
+          height: 4,
+        );
+      },
       itemBuilder: (context, index) {
         final isMe = messages[index].senderId == senderId;
         return ChatBubble(
-          message: messages[index].message,
+          chatMessage: messages[index],
           isMe: isMe,
         );
       },
@@ -193,10 +198,10 @@ class ChatList extends StatelessWidget {
 }
 
 class ChatBubble extends StatelessWidget {
-  final String message;
+  final ChatMessage chatMessage;
   final bool isMe;
 
-  const ChatBubble({super.key, required this.message, required this.isMe});
+  const ChatBubble({super.key, required this.chatMessage, required this.isMe});
 
   @override
   Widget build(BuildContext context) {
@@ -205,31 +210,48 @@ class ChatBubble extends StatelessWidget {
 
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8.0),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.75,
-        ),
-        decoration: BoxDecoration(
-          color: isMe
-              ? colorScheme.primaryContainer
-              : colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16),
-            topRight: const Radius.circular(16),
-            bottomLeft: Radius.circular(isMe ? 16 : 4),
-            bottomRight: Radius.circular(isMe ? 4 : 16),
+      child: Column(
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: [
+          if (!isMe)
+            Padding(
+              padding: const EdgeInsets.only(left: 4, bottom: 4),
+              child: Text(
+                chatMessage.senderName ?? '',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: colorScheme.outline,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
+            ),
+            decoration: BoxDecoration(
+              color: isMe
+                  ? colorScheme.primaryContainer
+                  : colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(16),
+                topRight: const Radius.circular(16),
+                bottomLeft: Radius.circular(isMe ? 16 : 4),
+                bottomRight: Radius.circular(isMe ? 4 : 16),
+              ),
+            ),
+            child: Text(
+              chatMessage.message,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: isMe
+                    ? colorScheme.onPrimaryContainer
+                    : colorScheme.onSecondaryContainer,
+              ),
+            ),
           ),
-        ),
-        child: Text(
-          message,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: isMe
-                ? colorScheme.onPrimaryContainer
-                : colorScheme.onSecondaryContainer,
-          ),
-        ),
+        ],
       ),
     );
   }

@@ -19,6 +19,7 @@ abstract class ChatMessage
     required this.senderId,
     required this.message,
     required this.timeSent,
+    this.senderName,
   });
 
   factory ChatMessage({
@@ -27,6 +28,7 @@ abstract class ChatMessage
     required int senderId,
     required String message,
     required DateTime timeSent,
+    String? senderName,
   }) = _ChatMessageImpl;
 
   factory ChatMessage.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -37,6 +39,7 @@ abstract class ChatMessage
       message: jsonSerialization['message'] as String,
       timeSent:
           _i1.DateTimeJsonExtension.fromJson(jsonSerialization['timeSent']),
+      senderName: jsonSerialization['senderName'] as String?,
     );
   }
 
@@ -55,6 +58,8 @@ abstract class ChatMessage
 
   DateTime timeSent;
 
+  String? senderName;
+
   @override
   _i1.Table<int?> get table => t;
 
@@ -67,6 +72,7 @@ abstract class ChatMessage
     int? senderId,
     String? message,
     DateTime? timeSent,
+    String? senderName,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -76,6 +82,7 @@ abstract class ChatMessage
       'senderId': senderId,
       'message': message,
       'timeSent': timeSent.toJson(),
+      if (senderName != null) 'senderName': senderName,
     };
   }
 
@@ -87,6 +94,7 @@ abstract class ChatMessage
       'senderId': senderId,
       'message': message,
       'timeSent': timeSent.toJson(),
+      if (senderName != null) 'senderName': senderName,
     };
   }
 
@@ -129,12 +137,14 @@ class _ChatMessageImpl extends ChatMessage {
     required int senderId,
     required String message,
     required DateTime timeSent,
+    String? senderName,
   }) : super._(
           id: id,
           channelId: channelId,
           senderId: senderId,
           message: message,
           timeSent: timeSent,
+          senderName: senderName,
         );
 
   /// Returns a shallow copy of this [ChatMessage]
@@ -147,6 +157,7 @@ class _ChatMessageImpl extends ChatMessage {
     int? senderId,
     String? message,
     DateTime? timeSent,
+    Object? senderName = _Undefined,
   }) {
     return ChatMessage(
       id: id is int? ? id : this.id,
@@ -154,6 +165,7 @@ class _ChatMessageImpl extends ChatMessage {
       senderId: senderId ?? this.senderId,
       message: message ?? this.message,
       timeSent: timeSent ?? this.timeSent,
+      senderName: senderName is String? ? senderName : this.senderName,
     );
   }
 }
